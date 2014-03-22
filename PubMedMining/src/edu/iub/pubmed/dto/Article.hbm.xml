@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 21, 2014 5:53:08 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.Article" table="article" catalog="pubmedcentral">
+        <id name="pubmedId" type="string">
+            <column name="pubmed_id" length="45" />
+            <generator class="assigned" />
+        </id>
+        <property name="pubDate" type="timestamp">
+            <column name="pub_date" length="19" />
+        </property>
+        <property name="articleTitle" type="string">
+            <column name="article_title" length="1000" />
+        </property>
+        <property name="subtitle" type="string">
+            <column name="subtitle" length="100" />
+        </property>
+        <property name="abstractText" type="string">
+            <column name="abstract_text" length="65535" />
+        </property>
+        <property name="conferenceId" type="java.lang.Integer">
+            <column name="conference_id" />
+        </property>
+        <property name="customText" type="string">
+            <column name="custom_text" length="65535" />
+        </property>
+        <property name="volumeId" type="string">
+            <column name="volume_id" length="45" />
+        </property>
+        <property name="unstructuredKeywordGroupId" type="java.lang.Integer">
+            <column name="unstructured_keyword_group_id" />
+        </property>
+    </class>
+</hibernate-mapping>

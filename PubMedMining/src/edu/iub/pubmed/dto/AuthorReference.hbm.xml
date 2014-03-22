@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 21, 2014 5:53:08 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.AuthorReference" table="author_reference" catalog="pubmedcentral">
+        <composite-id name="id" class="edu.iub.pubmed.dto.AuthorReferenceId">
+            <key-property name="id" type="int">
+                <column name="id" />
+            </key-property>
+            <key-property name="pubmedId" type="string">
+                <column name="pubmed_id" length="45" />
+            </key-property>
+            <key-property name="authorId" type="int">
+                <column name="author_id" />
+            </key-property>
+        </composite-id>
+        <property name="role" type="string">
+            <column name="role" length="45" />
+        </property>
+        <property name="comments" type="string">
+            <column name="comments" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

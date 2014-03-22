@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 21, 2014 5:53:08 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.Keyword" table="keyword" catalog="pubmedcentral">
+        <id name="keywordId" type="java.lang.Integer">
+            <column name="keyword_id" />
+            <generator class="identity" />
+        </id>
+        <property name="kwdGroupType" type="string">
+            <column name="kwd_group_type" length="45" />
+        </property>
+        <property name="compoundKwdPartContentType" type="string">
+            <column name="compound_kwd_part_content_type" length="45" />
+        </property>
+        <property name="keywordText" type="string">
+            <column name="keyword_text" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

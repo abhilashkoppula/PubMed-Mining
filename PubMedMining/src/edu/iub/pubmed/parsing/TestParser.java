@@ -25,40 +25,37 @@ import edu.iub.pubmed.dao.ArticleHome;
 import edu.iub.pubmed.dto.Article;
 import edu.iub.pubmed.dto.Author;
 import edu.iub.pubmed.dto.AuthorReference;
-import edu.iub.pubmed.dto.AuthorReferenceId;
 import edu.iub.pubmed.dto.Category;
 import edu.iub.pubmed.dto.CategoryReference;
 import edu.iub.pubmed.dto.CategoryReferenceId;
 import edu.iub.pubmed.dto.Citation;
 import edu.iub.pubmed.dto.CitationReference;
-import edu.iub.pubmed.dto.CitationReferenceId;
 import edu.iub.pubmed.dto.Conference;
 import edu.iub.pubmed.dto.Keyword;
 import edu.iub.pubmed.dto.KeywordReference;
-import edu.iub.pubmed.dto.KeywordReferenceId;
 import edu.iub.pubmed.dto.PubmedReference;
 import edu.iub.pubmed.dto.PubmedReferenceId;
 import edu.iub.pubmed.dto.Volume;
 import edu.iub.pubmed.utilities.PubMedLogger;
 
 /**
- * Sample class to Explore the XML document
+ * Test class to Explore the XML document
  * 
  * @author Abhilash
  * 
  */
-public class RootParser {
+public class TestParser {
 	Logger logger = PubMedLogger.getInstance();
 	XPath path = null;
 	Article currentArticle = null;
 	String fileName = null;
 	ArticleHome articleDAO = null;
 
-	public RootParser(Article article, String fileName) {
+	public TestParser(Article article, String fileName) {
 		path = XPathFactory.newInstance().newXPath();
 		currentArticle = article;
 		this.fileName = fileName;
-		articleDAO = new ArticleHome();
+		//articleDAO = new ArticleHome();
 	}
 
 	/**
@@ -88,7 +85,7 @@ public class RootParser {
 
 	public void extractFields(Document document) {
 		try {
-			articleDAO.getCurrentSession().beginTransaction();
+			//articleDAO.getCurrentSession().beginTransaction();
 			logger.log(Level.INFO, "### Parsing Article MetaData ###");
 			extractArticleMetaData(document);
 			logger.log(Level.INFO, "### Parsing Author Information ###");
@@ -103,12 +100,12 @@ public class RootParser {
 			extractVolumeDetails(document);
 			logger.log(Level.INFO, "### Parsing Conference Details ###");
 			extractConferenceDetails(document);
-			articleDAO.persist(currentArticle);
-			articleDAO.getCurrentSession().getTransaction().commit();
+			//articleDAO.persistArticle(currentArticle);
+			//articleDAO.getCurrentSession().getTransaction().commit();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			articleDAO.sessionClose();
+			//articleDAO.sessionClose();
 		}
 	}
 
@@ -207,7 +204,8 @@ public class RootParser {
 				nameElement = (Element) authorElement.getElementsByTagName(
 						"name").item(0);
 				if(nameElement != null && nameElement.getChildNodes() != null) {
-				author = new Author();
+					
+					author = new Author();
 				for (int childIndex = 0; childIndex < nameElement
 						.getChildNodes().getLength(); childIndex++) {
 					Node nameChildNode = nameElement.getChildNodes().item(
@@ -231,13 +229,13 @@ public class RootParser {
 		AuthorReference authorReference = null;
 
 		for (Author authorI : authors) {
-			articleDAO.persist(authorI);
+			//articleDAO.persistAuthor(authorI);
 			authorReference = new AuthorReference();
 			authorReference.setRole("");
 			authorReference.setComments("");
-			authorReference.setId(new AuthorReferenceId(0, currentArticle
-					.getPubmedId(), authorI.getId()));
-			articleDAO.persist(authorReference);
+//			authorReference.setId(new AuthorReferenceId(0, currentArticle
+//					.getPubmedId(), authorI.getId()));
+			//articleDAO.persistAuthorReference(authorReference);
 			authorReferences.add(authorReference);
 		}
 	}
@@ -245,9 +243,8 @@ public class RootParser {
 	/**
 	 * Extracts and saves the keywords .
 	 * @param document
-	 * @throws Exception 
 	 */
-	private void extractKeyWords(Document document) throws Exception {
+	private void extractKeyWords(Document document) {
 		List<Keyword> keyWords = new ArrayList<Keyword>();
 		Keyword keyword = null;
 		NodeList keywordGroups = null;
@@ -255,7 +252,7 @@ public class RootParser {
 			keywordGroups = (NodeList) path.evaluate("/article/front/article-meta/kwd-group",document.getDocumentElement(), XPathConstants.NODESET);
 			if (keywordGroups == null || keywordGroups.getLength() == 0) {
 				logger.severe("No KeyWords found for this article" + fileName);
-				//throw new Exception("No KeyWords");
+				throw new Exception("No KeyWords");
 			}
 			Element keywordGroup = null;
 			String kwdGroupType = null;
@@ -278,18 +275,17 @@ public class RootParser {
 			Set<KeywordReference> kwdRefs = new HashSet<>();
 			KeywordReference kwdRef = null;
 			for (Keyword kwd : keyWords) {
-				articleDAO.persist(kwd);
-				kwdRef = new KeywordReference(new KeywordReferenceId(
-						currentArticle.getPubmedId(), kwd.getKeywordId()));
-				articleDAO.persist(kwdRef);
+				//articleDAO.persistKeyword(kwd);
+//				kwdRef = new KeywordReference(new KeywordReferenceId(
+//						currentArticle.getPubmedId(), kwd.getKeywordId()));
+				//articleDAO.persistKeywordReference(kwdRef);
 				kwdRefs.add(kwdRef);
 			}
 			// currentArticle.setKeywordReferences(kwdRefs);
 		} catch (Exception ex) {
 			logger.severe("Exception while parsing KeyWord Information "+ fileName);
 			ex.printStackTrace();
-			throw ex;
-			
+			return;
 		}
 	}
 
@@ -391,12 +387,12 @@ public class RootParser {
 
 		Set<CitationReference> citationReference = new HashSet<>();
 		for (Citation cite : externalCitations) {
-			articleDAO.persist(cite);
-			CitationReference cRef = new CitationReference(
-					new CitationReferenceId(currentArticle.getPubmedId(),
-							cite.getCitationId()));
-			citationReference.add(cRef);
-			articleDAO.persist(cRef);
+			//articleDAO.persistCitation(cite);
+//			CitationReference cRef = new CitationReference(
+//					new CitationReferenceId(currentArticle.getPubmedId(),
+//							cite.getCitationId()));
+		//	citationReference.add(cRef);
+			//articleDAO.persistCitationReference(cRef);
 		}
 		Set<PubmedReference> pubmedReferences = new HashSet<>();
 		for (String pubMedId : pubMedCitations) {
@@ -404,13 +400,13 @@ public class RootParser {
 					new PubmedReferenceId(currentArticle.getPubmedId(),
 							pubMedId));
 			pubmedReferences.add(pubmedReference);
-			articleDAO.persist(pubmedReference);
+			//articleDAO.persistPubmedReference(pubmedReference);
 		}
 		// currentArticle.setCitationReferences(citationReference);
 		// currentArticle.setPubmedReferences(pubmedReferences);
 	}
 
-	private void extractVolumeDetails(Document document) throws Exception {
+	private void extractVolumeDetails(Document document) {
 		try {
 			Node volume = (Node) path.evaluate(
 					"/article/front/article-meta/volume",
@@ -449,13 +445,13 @@ public class RootParser {
 				vol.setVolume(volume.getTextContent());
 			}
 			//
-			articleDAO.persist(vol);
+			//articleDAO.persistVolume(vol);
 			currentArticle.setVolumeId(vol.getVolumeId());
 		} catch (Exception ex) {
 			logger.severe("Exception while parsing Volume Information "
 					+ fileName);
 			ex.printStackTrace();
-			throw ex;
+			return;
 		}
 
 	}
@@ -465,16 +461,15 @@ public class RootParser {
 	 * to get conference details
 	 * @param document
 	 * @return
-	 * @throws Exception 
 	 */
-	private void extractConferenceDetails(Document document) throws Exception {
+	private void extractConferenceDetails(Document document) {
 		Conference conf = null;
 		NodeList conferenceNode = null;
 		try {
 		 conferenceNode = (NodeList) path.evaluate(
 					"/article/front/article-meta/conference",
 					document.getDocumentElement(), XPathConstants.NODESET);
-			 if (conferenceNode != null) {
+			 if (conferenceNode != null && conferenceNode.getLength() == 1) {
 				Element conferenceElement = (Element) conferenceNode.item(0);
 				conf = new Conference();
 				for (int index = 0; index < conferenceElement.getChildNodes()
@@ -500,14 +495,13 @@ public class RootParser {
 						conf.setNum(childNode.getTextContent());
 					}
 				}
-				articleDAO.persist(conf);
+				//articleDAO.persistConference(conf);
 				currentArticle.setConferenceId(conf.getConferenceId());
 			}
 		} catch (Exception ex) {
 			logger.severe("Exception while parsing Conference details "
 					+ fileName);
 			ex.printStackTrace();
-			throw ex;
 		}
 	}
 
@@ -515,9 +509,8 @@ public class RootParser {
 	 * Extracts category information Recursively i.e for each category if there are child
 	 * categories they are traversed further.
 	 * @param document
-	 * @throws Exception 
 	 */
-	private void extractArticleCategories(Document document) throws Exception {
+	private void extractArticleCategories(Document document) {
 		List<Category> categories = new ArrayList<>();
 		Category category = null;
 		NodeList categoryNodes = null;
@@ -532,7 +525,7 @@ public class RootParser {
 				category = new Category();
 				category.setSubject(categoryNode.getFirstChild()
 						.getTextContent());
-				articleDAO.persist(category);
+			//	articleDAO.persistCategory(category);
 				categories.add(category);
 				if (categoryNode.getChildNodes().getLength() > 1) {
 					setSubCategories(categoryNode.getLastChild(), category,
@@ -547,18 +540,17 @@ public class RootParser {
 			}
 			for (Category categoryI : categories) {
 				if (category.getSubject() != null) {
-					categoryReference = new CategoryReference(
-							new CategoryReferenceId(
-									currentArticle.getPubmedId(),
-									categoryI.getCategoryId()));
-					articleDAO.persist(categoryReference);
+//					categoryReference = new CategoryReference(
+//							new CategoryReferenceId(
+//									currentArticle.getPubmedId(),
+//									categoryI.getCategoryId()));
+				//	articleDAO.persistCatReference(categoryReference);
 				}
 			}
 		} catch (Exception ex) {
 			logger.severe("Exception while parsing Categories "
 					+ fileName);
 			ex.printStackTrace();
-			throw ex;
 		}
 	}
 
@@ -587,7 +579,7 @@ public class RootParser {
 		// subCategory.setCategory(category);
 
 		subCategory.setSubject(lastChild.getFirstChild().getNodeValue());
-		articleDAO.persist(subCategory);
+		//articleDAO.persistCategory(subCategory);
 		categories.add(subCategory);
 		printCategoryType(lastChild);
 		if (lastChild.getChildNodes().getLength() > 1) {
@@ -631,6 +623,12 @@ public class RootParser {
 			System.out.println(bodyText.get(key).toString());
 		}
 		System.out.println(bodyText.size());
+	}
+	
+	public static void main(String[] args) throws Exception{
+		String fileName = "C:\\Drives\\Spring14\\LibIndStdy\\Pubmed\\DataSet\\Sample\\Acc_Chem_Res\\Acc_Chem_Res_2009_Jun_16_42(6)_788-797.nxml";
+		TestParser cp = new TestParser(new Article(), fileName);
+		cp.parse(fileName);
 	}
 
 }

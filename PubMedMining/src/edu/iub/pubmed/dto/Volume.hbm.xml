@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 19, 2014 7:17:37 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.Volume" table="volume" catalog="pubmedcentral">
+        <id name="volumeId" type="string">
+            <column name="volume_id" length="45" />
+            <generator class="assigned" />
+        </id>
+        <property name="volume" type="string">
+            <column name="volume" length="45" />
+        </property>
+        <property name="issue" type="string">
+            <column name="issue" length="45" />
+        </property>
+        <property name="issueId" type="string">
+            <column name="issue_id" length="45" />
+        </property>
+        <property name="issueTitle" type="string">
+            <column name="issue_title" length="100" />
+        </property>
+        <property name="issueSponsor" type="string">
+            <column name="issue_sponsor" length="45" />
+        </property>
+        <property name="issuePart" type="java.lang.Integer">
+            <column name="issue_part" />
+        </property>
+        <property name="isbn" type="string">
+            <column name="isbn" length="45" />
+        </property>
+        <set name="articles" table="article" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="volume_id" length="45" />
+            </key>
+            <one-to-many class="edu.iub.pubmed.dto.Article" />
+        </set>
+    </class>
+</hibernate-mapping>

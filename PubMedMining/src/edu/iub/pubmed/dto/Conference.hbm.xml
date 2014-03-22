@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 21, 2014 5:53:08 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.Conference" table="conference" catalog="pubmedcentral">
+        <id name="conferenceId" type="java.lang.Integer">
+            <column name="conference_id" />
+            <generator class="identity" />
+        </id>
+        <property name="date" type="date">
+            <column name="date" length="10" />
+        </property>
+        <property name="name" type="string">
+            <column name="name" length="45" />
+        </property>
+        <property name="num" type="string">
+            <column name="num" length="45" />
+        </property>
+        <property name="loc" type="string">
+            <column name="loc" length="45" />
+        </property>
+        <property name="sponsor" type="string">
+            <column name="sponsor" length="45" />
+        </property>
+        <property name="theme" type="string">
+            <column name="theme" length="45" />
+        </property>
+        <property name="acronym" type="string">
+            <column name="acronym" length="45" />
+        </property>
+        <property name="fullName" type="string">
+            <column name="full_name" length="100" />
+        </property>
+    </class>
+</hibernate-mapping>

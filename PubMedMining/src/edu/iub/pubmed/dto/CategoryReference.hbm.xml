@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 21, 2014 5:53:08 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.CategoryReference" table="category_reference" catalog="pubmedcentral">
+        <composite-id name="id" class="edu.iub.pubmed.dto.CategoryReferenceId">
+            <key-property name="pubmedId" type="string">
+                <column name="pubmed_id" length="45" />
+            </key-property>
+            <key-property name="categoryId" type="int">
+                <column name="category_id" />
+            </key-property>
+        </composite-id>
+        <property name="dummyCol" type="string">
+            <column name="dummy_col" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

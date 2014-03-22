@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 19, 2014 7:17:37 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.TitleGroup" table="title_group" catalog="pubmedcentral">
+        <id name="titleGroupId" type="int">
+            <column name="title_group_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="articleTitle" type="string">
+            <column name="article_title" length="45" />
+        </property>
+        <property name="articleSubtitle" type="string">
+            <column name="article_subtitle" length="45" />
+        </property>
+        <property name="alternateTitle" type="string">
+            <column name="alternate_title" length="45" />
+        </property>
+        <property name="transTitle" type="string">
+            <column name="trans_title" length="45" />
+        </property>
+        <property name="transSubtitle" type="string">
+            <column name="trans_subtitle" length="45" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 19, 2014 7:17:37 PM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.UnstructuredKeywordGroup" table="unstructured_keyword_group" catalog="pubmedcentral">
+        <composite-id name="id" class="edu.iub.pubmed.dto.UnstructuredKeywordGroupId">
+            <key-property name="id" type="int">
+                <column name="id" />
+            </key-property>
+            <key-property name="pubmedId" type="string">
+                <column name="pubmed_id" length="45" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="article" class="edu.iub.pubmed.dto.Article" update="false" insert="false" fetch="select">
+            <column name="pubmed_id" length="45" not-null="true" />
+        </many-to-one>
+        <property name="unstructuredKeyword" type="string">
+            <column name="unstructured_keyword" length="256" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

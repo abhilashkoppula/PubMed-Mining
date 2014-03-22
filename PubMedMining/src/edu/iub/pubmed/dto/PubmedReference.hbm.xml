@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 21, 2014 5:53:08 AM by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="edu.iub.pubmed.dto.PubmedReference" table="pubmed_reference" catalog="pubmedcentral">
+        <composite-id name="id" class="edu.iub.pubmed.dto.PubmedReferenceId">
+            <key-property name="pubmedId" type="string">
+                <column name="pubmed_id" length="45" />
+            </key-property>
+            <key-property name="citedPubmedId" type="string">
+                <column name="cited_pubmed_id" length="45" />
+            </key-property>
+        </composite-id>
+        <property name="leftText" type="string">
+            <column name="left_text" length="65535" />
+        </property>
+        <property name="rightText" type="string">
+            <column name="right_text" length="65535" />
+        </property>
+    </class>
+</hibernate-mapping>
